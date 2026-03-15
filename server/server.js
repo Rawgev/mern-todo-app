@@ -9,7 +9,11 @@ const Todo = require("./models/Todo");
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "*"
+  })
+);
 app.use(express.json());
 
 const config = {
