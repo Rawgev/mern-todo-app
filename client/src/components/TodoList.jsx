@@ -3,19 +3,19 @@ import { createPortal } from "react-dom";
 import TodoItem from "./TodoItem";
 
 function TodoList({ tasks, totalTasks, deleteTask, toggleComplete, editTask, setTasks }) {
+
   function getTaskId(task, fallbackIndex) {
-    return task.id ?? task._id ?? `task-${fallbackIndex}`;
+    return task._id ?? `task-${fallbackIndex}`;
   }
 
   function handleDragEnd(result) {
     if (!result.destination) return;
-    if (tasks.length !== totalTasks) return;
 
     const items = Array.from(tasks);
     const [moved] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, moved);
 
-    setTasks(items.map(({ originalIndex, ...task }) => task));
+    setTasks(items);
   }
 
   if (tasks.length === 0) {
@@ -43,20 +43,21 @@ function TodoList({ tasks, totalTasks, deleteTask, toggleComplete, editTask, set
                 index={index}
               >
                 {(provided, snapshot) => {
+
                   const child = (
                     <li
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       style={{
-                        ...provided.draggableProps.style,
+                        ...provided.draggableProps.style
                       }}
                     >
                       <TodoItem
                         task={task}
-                        onDelete={() => deleteTask(task.originalIndex)}
-                        onToggle={() => toggleComplete(task.originalIndex)}
-                        onEdit={(newText) => editTask(task.originalIndex, newText)}
+                        onDelete={() => deleteTask(task._id)}
+                        onToggle={() => toggleComplete(task._id, task.completed)}
+                        onEdit={(newText) => editTask(task._id, newText)}
                       />
                     </li>
                   );
@@ -79,5 +80,3 @@ function TodoList({ tasks, totalTasks, deleteTask, toggleComplete, editTask, set
 }
 
 export default TodoList;
-
-

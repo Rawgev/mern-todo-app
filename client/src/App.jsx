@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
+const API_URL = "https://mern-todo-app-z8d7.onrender.com/todos";
+
 function App() {
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -10,63 +12,84 @@ function App() {
     return localStorage.getItem("theme") || "dark";
   });
 
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem("tasks");
-    if (!saved) return [];
+const [tasks, setTasks] = useState([]);
 
-    const parsed = JSON.parse(saved);
+useEffect(() => {
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => setTasks(data))
+    .catch(err => console.error("Error fetching todos:", err));
+}, []);
+//ADD TASK
 
-    return parsed.map(t =>
-      typeof t === "string" ? { text: t, completed: false } : t
-    );
+ async function addTask(text) {
+  if (!text.trim()) return;
+
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text })
   });
 
-  function addTask(text) {
-    if (!text.trim()) return;
+  const newTodo = await res.json();
+  setTasks([...tasks, newTodo]);
+}
 
-    setTasks([...tasks, { text, completed: false }]);
-  }
+    //delete task
 
-  function deleteTask(indexToDelete) {
-    const updated = tasks.filter((_, i) => i !== indexToDelete);
-    setTasks(updated);
-  }
-  function editTask(indexToEdit, newText) {
-    const updated = tasks.map((t, i) =>
-      i === indexToEdit ? { ...t, text: newText } : t
-    );
-    setTasks(updated);
-  }
+  async function deleteTask(id) {
+  await fetch(`${API_URL}/${id}`, {
+    method: "DELETE"
+  });
 
+  setTasks(tasks.filter(task => task._id !== id));
+}
+//edit task
+async function editTask(id, newText) {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text: newText })
+  });
 
-  function toggleComplete(indexToToggle) {
-    const updated = tasks.map((t, i) =>
-      i === indexToToggle ? { ...t, completed: !t.completed } : t
-    );
-    setTasks(updated);
-  }
+  const updated = await res.json();
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  setTasks(tasks.map(t => (t._id === id ? updated : t)));
+}
+
+ async function toggleComplete(id, completed) {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ completed: !completed })
+  });
+
+  const updated = await res.json();
+
+  setTasks(tasks.map(t => (t._id === id ? updated : t)));
+}
+
+ 
   useEffect(() => {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
 
-  const filteredTasks = tasks
-    .map((task, index) => ({
-      ...task,
-      originalIndex: index,
-    }))
-    .filter(task => {
-      if (filter === "completed") return task.completed;
-      if (filter === "pending") return !task.completed;
-      return true;
-    })
-    .filter(task =>
-      task.text.toLowerCase().includes(search.toLowerCase())
-    );
+const filteredTasks = tasks
+  .filter(task => {
+    if (filter === "completed") return task.completed;
+    if (filter === "pending") return !task.completed;
+    return true;
+  })
+  .filter(task =>
+    task.text.toLowerCase().includes(search.toLowerCase())
+  );
 
   // counters
   const pendingCount = tasks.filter(t => !t.completed).length;
