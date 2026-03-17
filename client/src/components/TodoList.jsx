@@ -46,10 +46,12 @@ function TodoList({ tasks, totalTasks, deleteTask, toggleComplete, editTask, set
 
                   const child = (
                     <li
+                      className="todo-list-item-animated"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       style={{
+                        "--stagger-delay": `${index * 55}ms`,
                         ...provided.draggableProps.style
                       }}
                     >

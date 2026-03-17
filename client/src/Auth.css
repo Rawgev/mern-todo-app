@@ -1,0 +1,76 @@
+.auth-form {
+  animation: authFadeSlide 280ms ease;
+}
+
+.auth-form > * {
+  animation: authFieldIn 420ms ease both;
+}
+
+.auth-form > *:nth-child(1) { animation-delay: 60ms; }
+.auth-form > *:nth-child(2) { animation-delay: 120ms; }
+.auth-form > *:nth-child(3) { animation-delay: 180ms; }
+.auth-form > *:nth-child(4) { animation-delay: 240ms; }
+.auth-form > *:nth-child(5) { animation-delay: 300ms; }
+
+.auth-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.auth-input-wrap .todo-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 80px;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.auth-input-wrap .todo-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 2px rgba(76, 175, 239, 0.25);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #a9d7ff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.auth-action-btn {
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.auth-action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.auth-action-btn:active {
+  transform: scale(0.98);
+}
+
+@keyframes authFadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes authFieldIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

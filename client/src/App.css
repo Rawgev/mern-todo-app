@@ -487,3 +487,252 @@ body {
   color: #fff;
 }
 }
+
+/* Override main card color (dark mode) */
+.todo-card {
+  background: #8b008b;
+}
+
+.account-settings {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Logged-in UI refresh */
+.logged-in-bg {
+  background: radial-gradient(circle at top, #5f3dc4 0%, #3b125f 45%, #1f0422 100%);
+}
+
+.todo-card.logged-in-ui {
+  background: linear-gradient(180deg, #3f0b49 0%, #2f0738 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 50px rgba(17, 0, 20, 0.55);
+}
+
+.logged-in-ui .todo-title {
+  color: #ffe6ff;
+  text-shadow: 0 2px 14px rgba(255, 105, 180, 0.35);
+}
+
+.logged-in-ui .todo-item {
+  background: rgba(90, 12, 84, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logged-in-ui .todo-input,
+.logged-in-ui .search-input {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.logged-in-ui .todo-button,
+.logged-in-ui .filters button,
+.logged-in-ui .clear-btn {
+  background: #5a1a68;
+  color: #fff;
+}
+
+.logged-in-ui .todo-button:hover,
+.logged-in-ui .filters button:hover,
+.logged-in-ui .clear-btn:hover {
+  background: #7c2c8f;
+}
+
+.logged-in-ui .filters .active {
+  background: #ff4da6;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.top-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.top-action-btn {
+  width: auto;
+  margin-top: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* Interactive motion layer */
+.interactive-scene {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.interactive-scene::before,
+.interactive-scene::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  filter: blur(24px);
+  opacity: 0.25;
+  z-index: -1;
+  animation: floatBlob 10s ease-in-out infinite;
+}
+
+.interactive-scene::before {
+  top: -80px;
+  left: -90px;
+  background: #ff4da6;
+}
+
+.interactive-scene::after {
+  right: -100px;
+  bottom: -80px;
+  background: #4dc3ff;
+  animation-delay: -4s;
+}
+
+.auth-bg {
+  background: radial-gradient(circle at 20% 20%, #4f2535 0%, #2f0f1d 45%, #1b0914 100%);
+}
+
+.interactive-card {
+  animation: cardIn 500ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  backdrop-filter: blur(2px);
+}
+
+.todo-title {
+  animation: titleGlow 3.5s ease-in-out infinite;
+}
+
+.todo-list-item-animated {
+  opacity: 0;
+  transform: translateY(8px) scale(0.985);
+  animation: todoItemIn 420ms ease forwards;
+  animation-delay: var(--stagger-delay, 0ms);
+}
+
+.todo-item {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.todo-item:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.todo-button,
+.clear-btn,
+.filters button,
+.edit-btn,
+.delete-btn,
+.save-btn {
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.todo-button:hover,
+.clear-btn:hover,
+.filters button:hover,
+.edit-btn:hover,
+.delete-btn:hover,
+.save-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+}
+
+.todo-button:active,
+.clear-btn:active,
+.filters button:active,
+.edit-btn:active,
+.delete-btn:active,
+.save-btn:active {
+  transform: scale(0.97);
+}
+
+.todo-input:focus,
+.search-input:focus,
+.todo-edit input:focus {
+  box-shadow: 0 0 0 2px rgba(255, 132, 204, 0.35);
+  transform: translateY(-1px);
+}
+
+.task-counter {
+  animation: counterFade 700ms ease;
+}
+
+@keyframes floatBlob {
+  0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+  50% { transform: translateY(-18px) translateX(12px) scale(1.08); }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes todoItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 0 0 0 rgba(255, 166, 230, 0); }
+  50% { text-shadow: 0 0 16px rgba(255, 166, 230, 0.35); }
+}
+
+@keyframes counterFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive-scene::before,
+  .interactive-scene::after,
+  .interactive-card,
+  .todo-list-item-animated,
+  .todo-title,
+  .task-counter,
+  .auth-form > * {
+    animation: none !important;
+  }
+
+  .todo-item,
+  .todo-button,
+  .clear-btn,
+  .filters button {
+    transition: none !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .top-actions {
+    align-items: flex-start;
+  }
+
+  .top-actions-left {
+    max-width: calc(100% - 60px);
+  }
+}
