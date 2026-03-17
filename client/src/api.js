@@ -2,7 +2,10 @@ const DEFAULT_API_BASE_URL = import.meta.env.DEV
   ? "http://localhost:5000"
   : "https://mern-todo-app-z8d7.onrender.com";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_BASE_URL;
+const API_BASE_URL = (import.meta.env.VITE_API_URL?.trim() || DEFAULT_API_BASE_URL).replace(
+  /\/+$/,
+  ""
+);
 
 function buildHeaders(token, includeJson = false) {
   const headers = {};
